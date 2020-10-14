@@ -1,0 +1,20 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Get Dyanmic Database Credentials
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "debian buster slim"
+      agent:
+        machine:
+          type: e1-standard-2
+          os_image: ubuntu1804
+        containers:
+          - name: main
+            image: 'debian:buster-slim'
