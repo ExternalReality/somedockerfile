@@ -5,16 +5,17 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: Get Dyanmic Database Credentials
+  - name: Get Dynamic Credentials
+    dependencies: []
     task:
-      jobs:
-        - name: 'Job #1'
-          commands:
-            - echo "debian buster slim"
       agent:
         machine:
           type: e1-standard-2
           os_image: ubuntu1804
         containers:
           - name: main
-            image: 'debian:buster'
+            image: 'semaphoreci/ubuntu:18.04'
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - echo "hello world"
