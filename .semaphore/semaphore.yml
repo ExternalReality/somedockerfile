@@ -17,4 +17,4 @@ blocks:
           os_image: ubuntu1804
         containers:
           - name: main
-            image: 'debian:buster-slim'
+            image: 'debian:buster'
