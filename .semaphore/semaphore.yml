@@ -1,5 +1,5 @@
 version: v1.0
-name: Initial Pipeline
+name: Run Data Integrity Check
 agent:
   machine:
     type: e1-standard-2
@@ -9,7 +9,36 @@ blocks:
     dependencies: []
     task:
       jobs:
-        - name: Get Command
+        - name: Request
+          commands:
+            - 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
+            - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
+            - sudo apt-get update && sudo apt-get install vault -y
+            - vault login $VAULT_TOKEN
+      secrets:
+        - name: vault token
+      env_vars:
+        - name: VAULT_ADDR
+          value: 'http://ec2-user@ec2-52-3-240-23.compute-1.amazonaws.com:8200'
+  - name: Run Data Itegerity Check
+    dependencies:
+      - Get Dynamic Credentials
+    task:
+      secrets:
+        - name: vault token
+      jobs:
+        - name: Run Integrity Check
+          commands:
+            - echo "Running Integrity Check"
+  - name: Revoke Credentials
+    dependencies:
+      - Run Data Itegerity Check
+    task:
+      env_vars:
+        - name: VAULT_ADDR
+          value: 'http://ec2-user@ec2-52-3-240-23.compute-1.amazonaws.com:8200'
+      jobs:
+        - name: Revoke
           commands:
             - 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
