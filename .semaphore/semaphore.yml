@@ -15,7 +15,8 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
-            - vault read database/creds/postgres
+            - vault read database/creds/postgres --format=json > postgresqlcreds
+            - cat postgresqlcreds
       secrets:
         - name: vault token
       env_vars:
@@ -43,7 +44,5 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
-        - name: 'Job #2'
-          commands: []
       secrets:
         - name: vault token
