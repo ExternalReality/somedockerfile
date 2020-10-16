@@ -45,7 +45,7 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
-            - cache restore postgresqlcreds
-            - vault lease revoke `jq .lease_id`
+            - cache restore databasecreds
+            - vault lease revoke `jq .lease_id` postgresqlcreds
       secrets:
         - name: vault token
