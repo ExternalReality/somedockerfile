@@ -46,6 +46,6 @@ blocks:
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
             - cache restore databasecreds-$SEMAPHORE_WORKFLOW_ID
-            - vault lease revoke `jq .lease_id` postgresqlcreds
+            - vault lease revoke `jq .lease_id postgresqlcreds`
       secrets:
         - name: vault token
