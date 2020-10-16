@@ -15,6 +15,7 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
+            - vault read database/creds/postgres
       secrets:
         - name: vault token
       env_vars:
@@ -29,7 +30,11 @@ blocks:
       jobs:
         - name: Run Integrity Check
           commands:
-            - echo "Running Integrity Check"
+            - 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
+            - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
+            - sudo apt-get update && sudo apt-get install vault -y
+            - vault login $VAULT_TOKEN
+            - vault read database/creds/postgres > creds-file
   - name: Cleanup
     dependencies:
       - Run Data Itegerity Check
