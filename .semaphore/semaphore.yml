@@ -17,6 +17,7 @@ blocks:
             - vault login $VAULT_TOKEN
             - vault read database/creds/postgres --format=json > postgresqlcreds
             - cat postgresqlcreds
+            - cache store databasecreds postgresqlcreds
       secrets:
         - name: vault token
       env_vars:
