@@ -21,23 +21,17 @@ blocks:
       env_vars:
         - name: VAULT_ADDR
           value: 'http://ec2-user@ec2-3-215-198-153.compute-1.amazonaws.com:8200'
-  - name: Run Data Itegerity Check
+  - name: Run Database Tasks
     dependencies:
       - Get Dynamic Credentials
     task:
-      secrets:
-        - name: vault token
       jobs:
-        - name: Run Integrity Check
+        - name: Run Database Tasks
           commands:
-            - 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
-            - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
-            - sudo apt-get update && sudo apt-get install vault -y
-            - vault login $VAULT_TOKEN
-            - vault read database/creds/postgres > creds-file
+            - echo "run tasks"
   - name: Cleanup
     dependencies:
-      - Run Data Itegerity Check
+      - Run Database Tasks
     task:
       env_vars:
         - name: VAULT_ADDR
@@ -49,5 +43,7 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
+        - name: 'Job #2'
+          commands: []
       secrets:
         - name: vault token
