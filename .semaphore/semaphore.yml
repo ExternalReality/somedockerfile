@@ -17,7 +17,7 @@ blocks:
             - vault login $VAULT_TOKEN
             - vault read database/creds/postgres --format=json > postgresqlcreds
             - cat postgresqlcreds
-            - cache store databasecreds postgresqlcreds
+            - cache store databasecreds-$SEMAPHORE_WORKFLOW_ID postgresqlcreds
       secrets:
         - name: vault token
       env_vars:
@@ -45,7 +45,7 @@ blocks:
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
             - sudo apt-get update && sudo apt-get install vault -y
             - vault login $VAULT_TOKEN
-            - cache restore databasecreds
+            - cache restore databasecreds-$SEMAPHORE_WORKFLOW_ID
             - vault lease revoke `jq .lease_id` postgresqlcreds
       secrets:
         - name: vault token
