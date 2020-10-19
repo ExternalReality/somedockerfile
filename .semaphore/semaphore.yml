@@ -31,7 +31,7 @@ blocks:
         - name: Run Database Tasks
           commands:
             - echo "run tasks"
-  - name: Cleanup Creds Tasks
+  - name: Cleanup Credentials Tasks
     dependencies:
       - Run Database Tasks
     task:
