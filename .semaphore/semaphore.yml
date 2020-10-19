@@ -39,7 +39,7 @@ blocks:
         - name: VAULT_ADDR
           value: 'http://ec2-user@ec2-3-215-198-153.compute-1.amazonaws.com:8200'
       jobs:
-        - name: Revoke
+        - name: Revoke Creds
           commands:
             - 'curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -'
             - 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'
